@@ -1,5 +1,3 @@
-/* eslint-disable strict */
-
 require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
@@ -83,7 +81,7 @@ app.post('/register', (req, res) => {
   if (!password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
     return res
       .status(400)
-      .send('Password must be contain at least one digit');
+      .send('Password must contain at least one digit');
   }
 
   const clubs = [
@@ -121,7 +119,6 @@ app.post('/register', (req, res) => {
 });
 
 app.delete('/user/:userId', (req, res) => {
-  console.log(users)
   const { userId } = req.params;
 
   const index = users.findIndex(u => u.id === userId);
@@ -135,7 +132,9 @@ app.delete('/user/:userId', (req, res) => {
 
   users.splice(index, 1);
 
-  res.send('Deleted');
+  res
+    .status(204)
+    .end();
 });
 
 app.use(function errorHandler(error, req, res, next) {
